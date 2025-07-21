@@ -1,0 +1,1 @@
+MYHEALTHAI is an AI-driven health assistant web app that helps users understand diseases, treatments, medicines, and diet. Users can ask questions or upload medical PDFs to get simple, reliable answers. Built with Flask and MongoDB, it uses advanced language models for accurate, human-like health support.
