@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5" style="max-width: 500px;">
+  <div class="card shadow p-4">
+    <h2 class="text-center mb-4">Admin Signup</h2>
+
+    <form method="POST">
+      <div class="mb-3">
+        <label for="access_code" class="form-label">Access Code</label>
+        <input name="access_code" id="access_code" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input name="username" id="username" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="password" id="password" class="form-control" required>
+      </div>
+
+      <button type="submit" class="btn btn-warning w-100">Signup</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

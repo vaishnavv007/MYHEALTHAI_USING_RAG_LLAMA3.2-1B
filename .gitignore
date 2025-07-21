@@ -1,0 +1,80 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment
+.env
+.venv/
+venv/
+ENV/
+env.bak/
+env/
+
+# IDE settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Flask cache
+instance/
+*.db
+*.sqlite3
+
+# Pytest
+.cache
+.pytest_cache/
+
+# Logs and debug files
+*.log
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Uploaded files or temp data
+uploads/
+*.pdf
+
+downloads/
+*.pdf
+
+# Python egg
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Coverage reports
+htmlcov/
+.coverage
+.tox/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# MongoDB dump files
+dump/
+
+# Compiled frontend
+node_modules/
+*.tsbuildinfo
+
+# Local settings
+config.py
+secrets.json
+test.py
+test2.py
+last.py
+lastall.py
+
+blood.pdf
+booklet.pdf
+rag.py
+new.py 
+newtest.py 
+moondream.py
+image.py 
+qwen.py 
+qwen_langchain.py

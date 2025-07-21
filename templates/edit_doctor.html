@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4" style="max-width: 600px;">
+  <h3 class="mb-4">Edit Doctor</h3>
+
+  <form method="POST" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input id="name" name="name" value="{{ doctor.name }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="category" class="form-label">Category</label>
+      <input id="category" name="category" value="{{ doctor.category }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="rating" class="form-label">Rating</label>
+      <input id="rating" name="rating" type="number" step="0.1" value="{{ doctor.rating }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="qualification" class="form-label">Qualification</label>
+      <input id="qualification" name="qualification" value="{{ doctor.qualification }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="gender" class="form-label">Gender</label>
+      <input id="gender" name="gender" value="{{ doctor.gender }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="hospital" class="form-label">Hospital</label>
+      <input id="hospital" name="hospital" value="{{ doctor.hospital }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="state" class="form-label">State</label>
+      <input id="state" name="state" value="{{ doctor.state }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="district" class="form-label">District</label>
+      <input id="district" name="district" value="{{ doctor.district }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="location" class="form-label">Location</label>
+      <input id="location" name="location" value="{{ doctor.location }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone</label>
+      <input id="phone" name="phone" value="{{ doctor.phone }}" required class="form-control" />
+    </div>
+
+    <div class="mb-4">
+      <label for="map_link" class="form-label">Map Link (optional)</label>
+      <input id="map_link" name="map_link" value="{{ doctor.map_link }}" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary me-2">Update Doctor</button>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+
+<style>
+  /* Optional: add some focus effect */
+  input.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+</style>
+{% endblock %}

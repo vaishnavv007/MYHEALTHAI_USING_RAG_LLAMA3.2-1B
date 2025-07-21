@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Medical Report</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        let index = 0;
+        function addMedicine() {
+            const container = document.getElementById('medicines');
+            const html = `
+                <div class="border p-3 mb-2">
+                    <div class="form-group">
+                        <label>Medicine Name:</label>
+                        <input type="text" class="form-control" name="medicine_name_${index}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (in days):</label>
+                        <input type="number" class="form-control" name="medicine_days_${index}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Start Date:</label>
+                        <input type="date" class="form-control" name="medicine_start_${index}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Times:</label><br>
+                        <label><input type="checkbox" name="medicine_times_${index}" value="Morning"> Morning</label>
+                        <label><input type="checkbox" name="medicine_times_${index}" value="Noon"> Noon</label>
+                        <label><input type="checkbox" name="medicine_times_${index}" value="Night"> Night</label>
+                    </div>
+                </div>`;
+            container.insertAdjacentHTML('beforeend', html);
+            index++;
+        }
+    </script>
+</head>
+<body class="container mt-4">
+    <h3>Add Medical Report</h3>
+    <form method="POST" action="{{ url_for('add_report') }}">
+        <div class="form-group">
+            <label>Disease / Injury:</label>
+            <input type="text" class="form-control" name="disease" required>
+        </div>
+        <div class="form-group">
+            <label>Visited Hospital?</label>
+            <select class="form-control" name="visited" onchange="document.getElementById('hospitalDiv').style.display = this.value == 'Yes' ? 'block' : 'none';">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select>
+        </div>
+        <div class="form-group" id="hospitalDiv" style="display: none;">
+            <label>Hospital Name:</label>
+            <input type="text" class="form-control" name="hospital_name">
+        </div>
+        <div class="form-group">
+            <label>Description:</label>
+            <textarea class="form-control" name="description" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Report Date:</label>
+            <input type="date" class="form-control" name="report_date" required>
+        </div>
+
+        <!-- Medicines Section -->
+        <div id="medicines"></div>
+        <button type="button" class="btn btn-secondary my-2" onclick="addMedicine()">Add Medicine</button>
+
+        <br>
+        <button type="submit" class="btn btn-success">Save Report</button>
+        <a href="{{ url_for('user_dashboard') }}" class="btn btn-outline-secondary">Back</a>
+    </form>
+</body>
+</html>

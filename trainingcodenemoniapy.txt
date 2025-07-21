@@ -1,0 +1,122 @@
+from google.colab import files
+files.upload()  # 👈 Upload kaggle.json here
+
+
+!mkdir -p ~/.kaggle
+!cp kaggle.json ~/.kaggle/
+!chmod 600 ~/.kaggle/kaggle.json
+
+
+
+!kaggle datasets download -d paultimothymooney/chest-xray-pneumonia
+
+
+!unzip chest-xray-pneumonia.zip -d chest_xray_data/
+
+
+# 🔧 Install dependencies if needed
+!pip install torchvision
+
+import os
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torchvision import datasets, transforms, models
+from torch.utils.data import DataLoader
+from sklearn.metrics import accuracy_score
+from tqdm import tqdm
+
+# ✅ Check for GPU
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print("Running on:", device)
+
+# ✅ Set data directories
+data_dir = "/content/chest_xray_data/chest_xray"
+train_dir = os.path.join(data_dir, "train")
+val_dir = os.path.join(data_dir, "val")
+test_dir = os.path.join(data_dir, "test")
+
+# ✅ Define transforms
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+])
+
+# ✅ Load datasets
+train_dataset = datasets.ImageFolder(train_dir, transform=transform)
+val_dataset = datasets.ImageFolder(val_dir, transform=transform)
+test_dataset = datasets.ImageFolder(test_dir, transform=transform)
+
+# ✅ DataLoaders
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+
+# ✅ Load DenseNet121 (CheXNet base)
+model = models.densenet121(pretrained=True)
+model.classifier = nn.Linear(model.classifier.in_features, 1)  # Binary classifier
+model = model.to(device)
+
+# ✅ Loss & Optimizer
+criterion = nn.BCEWithLogitsLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+# ✅ Training loop
+epochs = 5  # You can increase this for better accuracy
+for epoch in range(epochs):
+    model.train()
+    running_loss = 0
+    all_preds = []
+    all_labels = []
+
+    for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}"):
+        images = images.to(device)
+        labels = labels.unsqueeze(1).float().to(device)
+
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        running_loss += loss.item()
+        preds = torch.sigmoid(outputs).round()
+        all_preds.extend(preds.cpu().detach().numpy())
+        all_labels.extend(labels.cpu().detach().numpy())
+
+
+    acc = accuracy_score(all_labels, all_preds)
+    print(f"🔁 Epoch {epoch+1} Loss: {running_loss:.4f} | Accuracy: {acc:.4f}")
+
+# ✅ Save the model
+torch.save(model.state_dict(), "chexnet_pneumonia.pt")
+print("✅ Model saved as chexnet_pneumonia.pt")
+
+
+
+
+
+
+from PIL import Image
+
+# Load model again for inference
+model.load_state_dict(torch.load("chexnet_pneumonia.pt", map_location=device))
+model.eval()
+
+def predict_image(image_path):
+    image = Image.open(image_path).convert("RGB")
+    img_tensor = transform(image).unsqueeze(0).to(device)
+
+    with torch.no_grad():
+        output = model(img_tensor)else
+        prob = torch.sigmoid(output).item()
+
+    label = "Pneumonia" if prob > 0.5  "Normal"
+    return label, prob
+
+# Example:
+image_path = "/content/chest_xray_data/chest_xray/chest_xray/val/PNEUMONIA/person1946_bacteria_4875.jpeg"
+
+label, prob = predict_image(image_path)
+print(f"🧠 Prediction: {label} (Confidence: {prob:.2f})")

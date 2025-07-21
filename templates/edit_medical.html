@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4" style="max-width: 600px;">
+  <h3 class="mb-4">Edit Medical Report</h3>
+
+  <form method="POST" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="disease_or_injury" class="form-label">Disease or Injury</label>
+      <input id="disease_or_injury" name="disease_or_injury" value="{{ report.disease_or_injury }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="date_visited" class="form-label">Date Visited</label>
+      <input id="date_visited" type="date" name="date_visited" value="{{ report.date_visited }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="hospital_name" class="form-label">Hospital Name</label>
+      <input id="hospital_name" name="hospital_name" value="{{ report.hospital_name }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="medicine_name" class="form-label">Medicine Name</label>
+      <input id="medicine_name" name="medicine_name" value="{{ report.medicine_name }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="days" class="form-label">Days</label>
+      <input id="days" name="days" value="{{ report.days }}" required class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="dosage_schedule" class="form-label">Dosage Schedule</label>
+      <input id="dosage_schedule" name="dosage_schedule" value="{{ report.dosage_schedule }}" required class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary me-2">Update</button>
+    <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+
+<style>
+  input.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+</style>
+{% endblock %}
